@@ -54,5 +54,95 @@ namespace BE
                 }
             }
         }
+
+        public Person GetPersonById(string id)
+        {
+            return null;
+        }
+
+        public List<Person> GetChildren()
+        {
+            return null;
+        }
+
+        public void insertPeople()
+        {
+            Person root = new Person()
+            {
+                Id = "-1",
+                Name = Guid.NewGuid().ToString()
+            };
+
+            insertPerson(root);
+
+
+            for (int i = 0; i < 5; i++)
+            {
+                Person raan= new Person()
+                {
+                    Id = i.ToString(),
+                    Name = Guid.NewGuid().ToString(),
+                    ParentId = "-1"
+                };
+                insertPerson(raan);
+
+                for (int j = 0; j < 5; j++)
+                {
+
+                    Person ramad = new Person()
+                    {
+                        Id = i.ToString() + j.ToString(),
+                        Name = Guid.NewGuid().ToString(),
+                        ParentId = i.ToString()
+                    };
+
+                    insertPerson(ramad);
+
+                    for (int k = 0; k < 5; k++)
+                    {
+
+                        Person rashach = new Person()
+                        {
+                            Id = i.ToString() + j.ToString()+k.ToString(),
+                            Name = Guid.NewGuid().ToString(),
+                            ParentId = i.ToString() + j.ToString()
+                        };
+
+                        insertPerson(rashach);
+                        for (int l = 0; l < 5; l++)
+                        {
+                            Person haial = new Person()
+                            {
+                                Id = i.ToString() + j.ToString()+ k.ToString() + l.ToString(),
+                                Name = Guid.NewGuid().ToString(),
+                                ParentId = i.ToString() + j.ToString() + k.ToString()
+                            };
+                            insertPerson(haial);
+                        }
+                    }
+                }
+
+               
+            }
+        }
+
+        public void insertPerson(Person person)
+        {
+            using (IDocumentStore store = new DocumentStore
+            {
+                Url = $"http://{_ip}:{_port}/", 
+                DefaultDatabase = "UnitTree"   
+            })
+            {
+                store.Initialize(); 
+
+                using (IDocumentSession session = store.OpenSession()) 
+                {
+                    session.Store(person);
+                    session.SaveChanges();
+                }
+            }
+        }
+
     }
 }
