@@ -6,7 +6,18 @@ app.controller("AddNewPersonController", ["appData", function (appData) {
     self.person = {};
 
     self.addNewPerson = function () {
+        appData.addNewPerson(self.person)
+            .then(function () {
+                self.person = null;
 
+                appData.getAllData()
+                    .then(function (data) {
+                        appData.network.setData({
+                            nodes: new vis.DataSet(data.data.nodes),
+                            edges: new vis.DataSet(data.data.edges)
+                        });
+                    })
+            });
     }
 
     self.substringMatcher = function(strs) {
