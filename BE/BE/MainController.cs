@@ -19,7 +19,7 @@ namespace BE
              _dal = new DAL(ip, port);
         }
 
-        [Route("Data")]
+        [Route("AllData")]
         public Tree GetTree()
         {
             var people = _dal.GetAllPeople();
@@ -43,19 +43,39 @@ namespace BE
         public PersonStats GetById(string id)
         {
             var person = _dal.GetPerson(id);
+            if (person == null)
+                return null;
 
             return new PersonStats
             {
                 Id = person.Id,
-                Name = person.Name
+                Name = person.Name,
+                Parent = person.ParentId
             };
         }
 
         [Route("DeleteData")]
         public void GetDeleteById(string id)
         {
-            _dal.deletePerson(id);
+            _dal.DeletePerson(id);
         }
 
+
+        [Route("InsertData")]
+        public void PutPerson(string name, string parentId)
+        {
+
+            _dal.InsertPerson(new Person {
+                Id = Guid.NewGuid().ToString(),
+                ParentId = parentId,
+                Name = name
+            });
+        }
+
+        [Route("UpdateData")]
+        public void GetUpdatePerson(string id, string newPerentId)
+        {
+            _dal.ChangeParent(id, newPerentId);
+        }
     }
 }
