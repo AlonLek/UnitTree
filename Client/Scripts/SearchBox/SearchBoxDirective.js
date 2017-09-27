@@ -3,7 +3,11 @@ app.directive("SearchBox", function () {
         restrict: 'E',
         templateUrl: "./Scripts/SearchBox/SearchBox.html",
         controller: "SearchBoxController",
-        controllerAs: "SearchBoxCtrl"
+        controllerAs: "searchBoxCtrl",
+        bindToController: true,
+        scope: {
+            query: '='
+        },
     }
 })
 

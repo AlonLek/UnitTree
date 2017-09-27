@@ -6,6 +6,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
 
     self.chosenNode = null;
     self.editNewPerson = {isEdited : false};
+    self.query = "";
 
     self.toggleEditCard = function () {
         self.editNewPerson.isEdited = !self.editNewPerson.isEdited;
@@ -46,8 +47,8 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
                 }
             });
 
-            var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, "4");
-            appData.network.setData({
+            var forrest = getRelevantNodesForest({nodes: data.data.nodes, edges: data.data.edges}, self.query);
+            network.setData({
                 nodes: new vis.DataSet(forrest.nodes),
                 edges: new vis.DataSet(forrest.edges)
             });
@@ -156,7 +157,7 @@ var getRelevantNodes = function(tree, query) {
 var getRelevantNodesForest = function(tree, query) {
     var relevantNodes = getRelevantNodes(tree, query);
 
-    //colorNodes(relevantNodes, "purple")
+    colorNodes(relevantNodes, "pink")
 
     if(relevantNodes.length === 0)
         return {
@@ -166,8 +167,8 @@ var getRelevantNodesForest = function(tree, query) {
 
     var currTree = getBloodLine(tree, relevantNodes[0]);
 
-    for (index in relevantNodes) {
-        var node = relevantNodes[index];
+    for (item in relevantNodes) {
+        var node = relevantNodes[item];
         currTree = unifyTrees(currTree, getBloodLine(tree, node));
     }
 

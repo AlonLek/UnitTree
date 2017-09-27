@@ -1,3 +1,2 @@
-app.controller("SearchBoxController", ["$scope", function ($scope) {
-    var self = this;
-}])
+app.controller("SearchBoxController", [function () {
+}]);
