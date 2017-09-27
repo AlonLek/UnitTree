@@ -11,7 +11,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
         self.editNewPerson.isEdited = !self.editNewPerson.isEdited;
     }
 
-    appData.getAllDAta()
+    appData.getAllData()
         .then(function (data) {
             var options = {
                 layout: {
@@ -32,9 +32,9 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
             };
 
             // initialize your network!
-            var network = new vis.Network(container, tree, options);
+            appData.network = new vis.Network(container, tree, options);
 
-            network.on("selectNode", function (params) {
+            appData.network.on("selectNode", function (params) {
                 if (params.nodes.length === 1) {
                     var node = params.nodes[0];
 
@@ -47,7 +47,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
             });
 
             var forrest = getRelevantNodesForest({nodes: data.data.nodes, edges: data.data.edges}, "4");
-            network.setData({
+            appData.network.setData({
                 nodes: new vis.DataSet(forrest.nodes),
                 edges: new vis.DataSet(forrest.edges)
             });

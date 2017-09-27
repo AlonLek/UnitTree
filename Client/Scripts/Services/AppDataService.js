@@ -4,7 +4,9 @@
 app.factory("appData", ["$q", "$http", function ($q, $http) {
     var appData = {};
 
-    appData.getAllDAta = function () {
+    appData.network = null;
+
+    appData.getAllData = function () {
         var deferred = $q.defer();
         $http.get("http://localhost:8080/allData")
             .then(function (data) {
@@ -18,6 +20,15 @@ app.factory("appData", ["$q", "$http", function ($q, $http) {
         $http.get("http://localhost:8080/dataById?id=" + id)
             .then(function (nodeData) {
                 deferred.resolve(nodeData.data);
+            });
+        return deferred.promise;
+    }
+
+    appData.deleteById = function (id) {
+        var deferred = $q.defer();
+        $http.get("http://localhost:8080/DeleteData?id=" + id)
+            .then(function (nodeData) {
+                deferred.resolve();
             });
         return deferred.promise;
     }
