@@ -12,7 +12,7 @@ app.service("appData", ["$q", "$http", function ($q, $http) {
         $http.get("http://localhost:8080/allData")
             .then(function (data) {
                 self.data = data.data;
-                deferred.resolve();
+                deferred.resolve(data);
             });
         return deferred.promise;
     };
@@ -29,7 +29,25 @@ app.service("appData", ["$q", "$http", function ($q, $http) {
     self.deleteById = function (id) {
         var deferred = $q.defer();
         $http.get("http://localhost:8080/DeleteData?id=" + id)
-            .then(function (nodeData) {
+            .then(function () {
+                deferred.resolve();
+            });
+        return deferred.promise;
+    }
+    
+    self.addNewPerson = function (person) {
+        var deferred = $q.defer();
+        $http.put("http://localhost:8080/InsertData?name=" + person.name + "&parentId=" + person.personId)
+            .then(function () {
+                deferred.resolve();
+            });
+        return deferred.promise;
+    }
+
+    self.updateData = function (person) {
+        var deferred = $q.defer();
+        $http.put("http://localhost:8080/InsertData?name=" + person.name + "&parentId=" + person.personId)
+            .then(function () {
                 deferred.resolve();
             });
         return deferred.promise;
