@@ -50,6 +50,6 @@ app.controller("AddNewPersonController", [function () {
         });
 
     self.closeCard = function () {
-        self.editNewPerson = false;
+        self.editNewPerson.isEdited = false;
     }
 }]);

@@ -10,7 +10,7 @@ app.directive("addNewPerson", function () {
         },
         replace:true,
         controller: "AddNewPersonController",
-        controllerAs: "AddNewPersonCtrl",
+        controllerAs: "addNewPersonCtrl",
         bindToController: true
     }
 })

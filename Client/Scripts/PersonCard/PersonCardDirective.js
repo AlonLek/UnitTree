@@ -6,7 +6,7 @@ app.directive("personCard", function () {
         restrict: 'EA',
         templateUrl: "./Scripts/PersonCard/PersonCard.html",
         scope: {
-            person: '=',
+            person: '='
         },
         replace:true,
         controller: "PersonCardController",

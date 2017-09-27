@@ -1,13 +1,17 @@
 <div class="row-flexbox">
-    <div id="unitTree" class="unit-tree"> </div>
+    <div style="width: 100%;" class="row-flexbox">
+        <div id="unitTree" class="unit-tree"></div>
+        <button class="btn btn-light add-new-btn" ng-click="unitTreeCtrl.toggleEditCard()"
+                ng-disabled="unitTreeCtrl.editNewPerson.isEdited" ng-class="{'show-pointer': !unitTreeCtrl.editNewPerson}">
+            <span>הוסף חייל חדש</span>
+            <i class="fa fa-plus fa-2"></i>
+        </button>
+    </div>
     <div id="personCard" ng-if="unitTreeCtrl.chosenNode" class="card">
         <person-card person="unitTreeCtrl.chosenNode"></person-card>
     </div>
-    <button class="btn btn-light add-new-btn" ng-click="unitTreeCtrl.toggleEditCard()" ng-disabled="unitTreeCtrl.editNewPerson" ng-class="{'show-pointer': !unitTreeCtrl.editNewPerson}">
-        <span>הוסף חייל חדש</span>
-        <i class="fa fa-plus fa-2"></i>
-    </button>
-    <div id="newPersonCard" ng-if="unitTreeCtrl.editNewPerson" class="card">
-        <add-new-person editNewPerson="unitTreeCtrl.editNewPerson"></add-new-person>
+    <div id="newPersonCard" ng-if="unitTreeCtrl.editNewPerson.isEdited" class="card">
+        <add-new-person edit-new-person="unitTreeCtrl.editNewPerson"></add-new-person>
     </div>
+
 </div>
