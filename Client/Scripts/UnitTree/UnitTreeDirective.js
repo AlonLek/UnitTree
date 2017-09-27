@@ -4,7 +4,7 @@
 app.directive("unitTree", function () {
     return {
         restrict: 'EA',
-        templateUrl: "./UnitTree/UnitTree.html",
+        templateUrl: "./Scripts/UnitTree/UnitTree.html",
         controller: "UnitTreeController",
         controllerAs: "UnitTreeCtrl"
     }
