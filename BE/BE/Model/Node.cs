@@ -8,7 +8,7 @@ namespace BE.Model
         {
             Id = id;
             Label = label;
-            ParentId = ParentId;
+            ParentId = parentId;
         }
         public string Id { get; set; }
         public string Label { get; set; }
