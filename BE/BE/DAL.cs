@@ -21,7 +21,7 @@ namespace BE
             _port = port;
         }
 
-        public List<Person> GetPeople()
+        public List<Person> GetAllPeople()
         {
             using (IDocumentStore store = new DocumentStore
             {
