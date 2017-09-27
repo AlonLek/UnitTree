@@ -1,13 +1,15 @@
 <div>
-    <button class="btn btn-light close-btn" ng-click="addNewPersonCtrl.closeCard()"><i class="fa fa-times fa-2"></i></button>
+    <button class="btn btn-light close-btn" ng-click="addNewPersonCtrl.closeCard()"><i class="fa fa-times fa-2"></i>
+    </button>
     <!--<img src="img_avatar.png" alt="Avatar" style="width:100%">-->
     <div class="container">
-        <div>
-            <span>שם מלא:</span>
-            <input type="text" ng-bind="addNewPersonCtrl.person.name">
+        <h4 class="center-flexbox-items new-person-title"><b>הוספת חייל חדש</b></h4>
+        <div class="row-flexbox property-bottom-margin">
+            <span class="person-property">שם מלא:</span>
+            <input type="text" ng-bind="addNewPersonCtrl.person.name" class="ng-binding">
         </div>
-        <div>
-            <span>שם מפקד:</span>
+        <div class="row-flexbox">
+            <span class="person-property">שם מפקד:</span>
             <input type="text">
         </div>
     </div>

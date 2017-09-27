@@ -1,0 +1,11 @@
+.person-property {
+    flex: 0 0 80px;
+}
+
+.new-person-title{
+    margin-bottom: 10px;
+}
+
+.property-bottom-margin{
+    margin-bottom: 5px;
+}

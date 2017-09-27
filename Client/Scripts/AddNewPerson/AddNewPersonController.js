@@ -6,6 +6,6 @@ app.controller("AddNewPersonController", [function () {
     self.person = {};
 
     self.closeCard = function () {
-        self.editNewPerson = false;
+        self.editNewPerson.isEdited = false;
     }
 }]);

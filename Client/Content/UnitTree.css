@@ -3,6 +3,17 @@
     display: flex;
 }
 
+.col-flexbox {
+    justify-content: flex-end;
+    display: flex;
+}
+
+.center-flexbox-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .unit-tree {
     flex: auto;
 }
@@ -15,14 +26,28 @@
     cursor: pointer;
 }
 
-.add-new-btn{
+.add-new-btn {
     margin-left: 5px;
     margin-top: 6px;
+    margin-right: 5px;
     height: 35px;
     float: left;
+    margin-right: 5px;
 }
 
-.show-pointer{
+.show-pointer {
     cursor: pointer;
 }
 
+.container {
+    margin-top: 55px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    width: 25%;
+    direction: rtl;
+    height: 45%;
+}
