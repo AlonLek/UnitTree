@@ -10,11 +10,19 @@ namespace BE
 {
     public class MainController : ApiController
     {
-        [Route("Data")]
-        public Tree GetData()
+        private DAL _dal;
+        const string ip = "10.10.247.133";
+        const string port = "8080";
+
+        public MainController()
         {
-            var dal = new DAL("10.10.247.133", "8080");
-            var people = dal.GetAllPeople();
+             _dal = new DAL(ip, port);
+        }
+
+        [Route("Data")]
+        public Tree GetTree()
+        {
+            var people = _dal.GetAllPeople();
             var nodes = new List<Node>();
             var edges = new List<Edge>();
             foreach (var person in people)
@@ -31,11 +39,10 @@ namespace BE
             };
         }
 
-        [Route("Data")]
+        [Route("DataById")]
         public PersonStats GetById(string id)
         {
-            var dal = new DAL("10.10.247.133", "8080");
-            var person = dal.GetPerson(id);
+            var person = _dal.GetPerson(id);
 
             return new PersonStats
             {
@@ -43,5 +50,12 @@ namespace BE
                 Name = person.Name
             };
         }
+
+        [Route("DeleteData")]
+        public void GetDeleteById(string id)
+        {
+            _dal.deletePerson(id);
+        }
+
     }
 }
