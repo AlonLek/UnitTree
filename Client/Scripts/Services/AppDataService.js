@@ -15,7 +15,7 @@ app.factory("appData", ["$q", "$http", function ($q, $http) {
 
     appData.getById = function (id) {
         var deferred = $q.defer();
-        $http.get("http://10.10.247.136:8080/dataById?id=" + id)
+        $http.get("http://localhost:8080/dataById?id=" + id)
             .then(function (nodeData) {
                 deferred.resolve(nodeData.data);
             });
