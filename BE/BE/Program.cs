@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
 
 namespace BE
 {
@@ -11,7 +12,12 @@ namespace BE
     {
         static void Main(string[] args)
         {
-            var microService = new MicroService();
+            var microService = new MicroService(configure: conf =>
+            {
+                conf.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                conf.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+
+            });
             microService.Run(args);
 
 
