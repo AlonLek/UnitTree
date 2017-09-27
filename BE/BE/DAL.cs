@@ -33,24 +33,7 @@ namespace BE
 
                 using (IDocumentSession session = store.OpenSession()) // opens a session that will work in context of 'DefaultDatabase'
                 {
-                    //Person person = new Person
-                    //{
-                    //    Id = "yael",
-                    //    Name = "",
-                    //    ParentId = "3"
-                    //};
-
-                    //session.Store(person); // stores employee in session, assigning it to a collection `Employees`
-                    //string employeeId = person.Id; // Session.Store will assign Id to employee, if it is not set
-
-                    //session.SaveChanges(); // sends all changes to server
-
-                    // Session implements Unit of Work pattern,
-                    // therefore employee instance would be the same and no server call will be made
-
                     return session.Query<Person>().ToList();
-
-
                 }
             }
         }
