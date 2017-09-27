@@ -12,7 +12,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
     }
 
     appData.getAllData()
-        .then(function (data) {
+        .then(function () {
             var options = {
                 layout: {
                     hierarchical: {
@@ -27,8 +27,8 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
 
             // provide the data in the vis format
             var tree = {
-                nodes: new vis.DataSet(data.data.nodes),
-                edges: new vis.DataSet(data.data.edges)
+                nodes: new vis.DataSet(appData.data.nodes),
+                edges: new vis.DataSet(appData.data.edges)
             };
 
             // initialize your network!
@@ -46,7 +46,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
                 }
             });
 
-            var forrest = getRelevantNodesForest({nodes: data.data.nodes, edges: data.data.edges}, "4");
+            var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, "4");
             appData.network.setData({
                 nodes: new vis.DataSet(forrest.nodes),
                 edges: new vis.DataSet(forrest.edges)

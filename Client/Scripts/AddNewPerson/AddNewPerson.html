@@ -6,12 +6,12 @@
         <h4 class="center-flexbox-items new-person-title"><b>הוספת חייל חדש</b></h4>
         <div class="row-flexbox property-bottom-margin">
             <span class="person-property">שם מלא:</span>
-            <input type="text" ng-bind="addNewPersonCtrl.person.name" class="ng-binding">
+            <input type="text" ng-model="addNewPersonCtrl.person.name" class="ng-binding">
         </div>
         <div class="row-flexbox">
             <span class="person-property">שם מפקד:</span>
             <div id="the-basics">
-                <input class="typeahead" type="text" placeholder="">
+                <input class="typeahead" type="text" placeholder="" ng-model="addNewPersonCtrl.person.commander">
             </div>
         </div>
     </div>

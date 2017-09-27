@@ -1,12 +1,11 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.controller("AddNewPersonController", [function () {
+app.controller("AddNewPersonController", ["appData", function (appData) {
     var self = this;
     self.person = {};
 
     self.substringMatcher = function(strs) {
-        debugger;
         return function findMatches(q, cb) {
             var matches, substringRegex;
 
@@ -19,7 +18,7 @@ app.controller("AddNewPersonController", [function () {
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
             $.each(strs, function(i, str) {
-                if (substrRegex.test(str)) {
+                if (substrRegex.test(str.label)) {
                     matches.push(str);
                 }
             });
@@ -28,16 +27,18 @@ app.controller("AddNewPersonController", [function () {
         };
     };
 
-    self.commanderName = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
+    // self.commanderName = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+    //     'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+    //     'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+    //     'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+    //     'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+    //     'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+    //     'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+    //     'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+    //     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+    // ];
+
+    self.commanderName = appData.data.nodes;
 
     $('#the-basics .typeahead').typeahead({
             hint: true,

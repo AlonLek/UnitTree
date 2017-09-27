@@ -1,21 +1,23 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.factory("appData", ["$q", "$http", function ($q, $http) {
-    var appData = {};
+app.service("appData", ["$q", "$http", function ($q, $http) {
+    var self = this;
+    self.data = [];
 
-    appData.network = null;
+    self.network = null;
 
-    appData.getAllData = function () {
+    self.getAllData = function () {
         var deferred = $q.defer();
         $http.get("http://localhost:8080/allData")
             .then(function (data) {
-                deferred.resolve(data);
+                self.data = data.data;
+                deferred.resolve();
             });
         return deferred.promise;
     };
 
-    appData.getById = function (id) {
+    self.getById = function (id) {
         var deferred = $q.defer();
         $http.get("http://localhost:8080/dataById?id=" + id)
             .then(function (nodeData) {
@@ -24,7 +26,7 @@ app.factory("appData", ["$q", "$http", function ($q, $http) {
         return deferred.promise;
     }
 
-    appData.deleteById = function (id) {
+    self.deleteById = function (id) {
         var deferred = $q.defer();
         $http.get("http://localhost:8080/DeleteData?id=" + id)
             .then(function (nodeData) {
@@ -32,6 +34,4 @@ app.factory("appData", ["$q", "$http", function ($q, $http) {
             });
         return deferred.promise;
     }
-
-    return appData;
 }]);
