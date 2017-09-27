@@ -43,4 +43,13 @@ app.service("appData", ["$q", "$http", function ($q, $http) {
             });
         return deferred.promise;
     }
+
+    self.updateData = function (person) {
+        var deferred = $q.defer();
+        $http.put("http://localhost:8080/InsertData?name=" + person.name + "&parentId=" + person.personId)
+            .then(function () {
+                deferred.resolve();
+            });
+        return deferred.promise;
+    }
 }]);
