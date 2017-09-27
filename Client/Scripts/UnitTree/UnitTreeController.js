@@ -4,7 +4,7 @@
 app.controller("UnitTreeController", [function () {
     $.ajax({
         method: "get",
-        url: "http://10.10.247.135:8080/data",
+        url: "http://localhost:8080/data",
         success: function (data) {
 
             var options = {

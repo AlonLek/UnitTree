@@ -13,10 +13,21 @@ namespace BE
         [Route("Data")]
         public Tree GetData()
         {
+            DAL dal = new DAL("10.10.247.133", "8080");
+            var people = dal.GetAllPeople();
+            var nodes = new List<Node>();
+            var edges = new List<Edge>();
+            foreach (var person in people )
+            {
+                nodes.Add(new Node(person.Id));
+                if(person.ParentId != null)
+                    edges.Add(new Edge(person.ParentId,person.Id));
+            }
+
             return new Tree
             {
-                Nodes = new List<Node>() { new Node("a"), new Node("b"), new Node("c") },
-                Edges = new List<Edge>() { new Edge() { From = "a", To = "b" }, new Edge() { From = "a", To = "c" } }
+                Nodes = nodes,
+                Edges = edges
             };
         }
     }
