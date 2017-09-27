@@ -4,6 +4,8 @@
 app.controller("UnitTreeController", ["$http", "appData", function ($http, appData) {
     var self = this;
 
+    self.chosenNode = null;
+
     appData.getAllDAta()
         .then(function (data) {
             var options = {
@@ -30,7 +32,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
 
                     appData.getById(node)
                         .then(function (nodeData) {
-                            console.log(nodeData);
+                            self.chosenNode = nodeData;
                         })
                         .catch();
                 }

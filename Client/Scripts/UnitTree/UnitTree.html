@@ -1,2 +1,6 @@
-<div id="unitTree">
+<div class="row-flexbox">
+    <div id="unitTree" class="unit-tree"> </div>
+    <div id="personCard" ng-if="unitTreeCtrl.chosenNode" class="card">
+        <person-card person="unitTreeCtrl.chosenNode"></person-card>
+    </div>
 </div>

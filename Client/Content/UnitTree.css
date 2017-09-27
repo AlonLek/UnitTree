@@ -1,0 +1,8 @@
+.row-flexbox {
+    justify-content: flex-start;
+    display: flex;
+}
+
+.unit-tree {
+    flex: auto;
+}
