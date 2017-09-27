@@ -45,11 +45,11 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
                 }
             });
 
-            // var forrest = getRelevantNodesForest({nodes: data.data.nodes, edges: data.data.edges}, "4");
-            // network.setData({
-            //     nodes: new vis.DataSet(forrest.nodes),
-            //     edges: new vis.DataSet(forrest.edges)
-            // });
+            var forrest = getRelevantNodesForest({nodes: data.data.nodes, edges: data.data.edges}, "4");
+            network.setData({
+                nodes: new vis.DataSet(forrest.nodes),
+                edges: new vis.DataSet(forrest.edges)
+            });
 
         })
         .catch();
@@ -155,6 +155,8 @@ var getRelevantNodes = function(tree, query) {
 var getRelevantNodesForest = function(tree, query) {
     var relevantNodes = getRelevantNodes(tree, query);
 
+    //colorNodes(relevantNodes, "purple")
+
     if(relevantNodes.length === 0)
         return {
             nodes: [],
@@ -216,4 +218,9 @@ var containsEdge = function(edges, edge) {
         if(edges[index].from === edge.from && edges[index].to === edge.to)
             return true;
     return false;
+}
+
+var colorNodes = function(nodes, color) {
+    for (index in nodes)
+        nodes[index].color = color;
 }
