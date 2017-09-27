@@ -27,7 +27,7 @@ namespace BE
             var edges = new List<Edge>();
             foreach (var person in people)
             {
-                nodes.Add(new Node(person.Id, person.Name));
+                nodes.Add(new Node(person.Id, person.Name, person.ParentId));
                 if(person.ParentId != null)
                     edges.Add(new Edge(person.ParentId,person.Id));
             }
