@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MicroService4Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,10 @@ namespace BE
     {
         static void Main(string[] args)
         {
+            var microService = new MicroService();
+            microService.Run(args);
+
+
         }
     }
 }
