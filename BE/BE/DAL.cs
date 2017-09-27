@@ -9,7 +9,7 @@ using Raven.Client.Document;
 
 namespace BE
 {
-    
+
     public class DAL
     {
         private string _ip;
@@ -49,7 +49,7 @@ namespace BE
                     // therefore employee instance would be the same and no server call will be made
 
                     return session.Query<Person>().ToList();
-                    
+
 
                 }
             }
@@ -85,7 +85,7 @@ namespace BE
 
             for (int i = 0; i < 5; i++)
             {
-                Person raan= new Person()
+                Person raan = new Person()
                 {
                     Id = i.ToString(),
                     Name = Guid.NewGuid().ToString(),
@@ -110,7 +110,7 @@ namespace BE
 
                         Person rashach = new Person()
                         {
-                            Id = i.ToString() + j.ToString()+k.ToString(),
+                            Id = i.ToString() + j.ToString() + k.ToString(),
                             Name = Guid.NewGuid().ToString(),
                             ParentId = i.ToString() + j.ToString()
                         };
@@ -120,7 +120,7 @@ namespace BE
                         {
                             Person haial = new Person()
                             {
-                                Id = i.ToString() + j.ToString()+ k.ToString() + l.ToString(),
+                                Id = i.ToString() + j.ToString() + k.ToString() + l.ToString(),
                                 Name = Guid.NewGuid().ToString(),
                                 ParentId = i.ToString() + j.ToString() + k.ToString()
                             };
@@ -129,7 +129,7 @@ namespace BE
                     }
                 }
 
-               
+
             }
         }
 
@@ -137,13 +137,13 @@ namespace BE
         {
             using (IDocumentStore store = new DocumentStore
             {
-                Url = $"http://{_ip}:{_port}/", 
-                DefaultDatabase = "UnitTree"   
+                Url = $"http://{_ip}:{_port}/",
+                DefaultDatabase = "UnitTree"
             })
             {
-                store.Initialize(); 
+                store.Initialize();
 
-                using (IDocumentSession session = store.OpenSession()) 
+                using (IDocumentSession session = store.OpenSession())
                 {
                     session.Store(person);
                     session.SaveChanges();
@@ -151,5 +151,22 @@ namespace BE
             }
         }
 
+        public void deletePerson(string id)
+        {
+            using (IDocumentStore store = new DocumentStore
+            {
+                Url = $"http://{_ip}:{_port}/",
+                DefaultDatabase = "UnitTree"
+            })
+            {
+                store.Initialize();
+
+                using (IDocumentSession session = store.OpenSession())
+                {
+                    session.Delete(id);
+                    session.SaveChanges();
+                }
+            }
+        }
     }
 }
