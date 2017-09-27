@@ -60,7 +60,6 @@ namespace BE
             _dal.DeletePerson(id);
         }
 
-
         [Route("InsertData")]
         public void PutPerson(string name, string parentId)
         {
