@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Raven;
 using Raven.Client;
 using Raven.Client.Document;
+using Raven.Abstractions.Data;
+using Raven.Json.Linq;
 
 namespace BE
 {
@@ -55,7 +57,7 @@ namespace BE
             }
         }
 
-        public void insertPeople()
+        public void InsertPeople()
         {
             Person root = new Person()
             {
@@ -63,7 +65,7 @@ namespace BE
                 Name = Guid.NewGuid().ToString()
             };
 
-            insertPerson(root);
+            InsertPerson(root);
 
 
             for (int i = 0; i < 5; i++)
@@ -74,7 +76,7 @@ namespace BE
                     Name = Guid.NewGuid().ToString(),
                     ParentId = "-1"
                 };
-                insertPerson(raan);
+                InsertPerson(raan);
 
                 for (int j = 0; j < 5; j++)
                 {
@@ -86,7 +88,7 @@ namespace BE
                         ParentId = i.ToString()
                     };
 
-                    insertPerson(ramad);
+                    InsertPerson(ramad);
 
                     for (int k = 0; k < 5; k++)
                     {
@@ -98,7 +100,7 @@ namespace BE
                             ParentId = i.ToString() + j.ToString()
                         };
 
-                        insertPerson(rashach);
+                        InsertPerson(rashach);
                         for (int l = 0; l < 5; l++)
                         {
                             Person haial = new Person()
@@ -107,7 +109,7 @@ namespace BE
                                 Name = Guid.NewGuid().ToString(),
                                 ParentId = i.ToString() + j.ToString() + k.ToString()
                             };
-                            insertPerson(haial);
+                            InsertPerson(haial);
                         }
                     }
                 }
@@ -116,7 +118,7 @@ namespace BE
             }
         }
 
-        public void insertPerson(Person person)
+        public void InsertPerson(Person person)
         {
             using (IDocumentStore store = new DocumentStore
             {
@@ -134,7 +136,7 @@ namespace BE
             }
         }
 
-        public void deletePerson(string id)
+        public void DeletePerson(string id)
         {
             using (IDocumentStore store = new DocumentStore
             {
@@ -148,6 +150,31 @@ namespace BE
                 {
                     session.Delete(id);
                     session.SaveChanges();
+                }
+            }
+        }
+
+        public void ChangeParent(string id, string newdParentId)
+        {
+            using (IDocumentStore store = new DocumentStore
+            {
+                Url = $"http://{_ip}:{_port}/", // server URL
+                DefaultDatabase = "UnitTree"   // default database
+            })
+            {
+                store.Initialize(); // initializes document store, by connecting to server and downloading various configurations
+
+                using (IDocumentSession session = store.OpenSession()) // opens a session that will work in context of 'DefaultDatabase'
+                {
+                    Person person =  GetPerson(id);
+                    Person parent = GetPerson(newdParentId);
+                    if(person != null && parent!=null)
+                    {
+                        person.ParentId = newdParentId;
+                        DeletePerson(person.Id);
+                        InsertPerson(person);
+                        
+                    }
                 }
             }
         }

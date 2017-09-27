@@ -4,13 +4,22 @@
 app.controller("UnitTreeController", ["$http", "appData", function ($http, appData) {
     var self = this;
 
-    $http.get("http://10.10.247.135:8080/data")
+    self.chosenNode = null;
+    self.editNewPerson = false;
+
+    self.toggleEditCard = function () {
+        self.editNewPerson = !self.editNewPerson;
+    }
+    appData.getAllDAta()
         .then(function (data) {
             var options = {
                 layout: {
-                    hierarchical: true
-                }
-            }
+                    hierarchical: {
+                        sortMethod: 'directed'   // hubsize, directed
+                    }
+                },
+                physics: false
+            };
 
             // create a network
             var container = document.getElementById('unitTree');
@@ -19,7 +28,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
             var tree = {
                 nodes: new vis.DataSet(data.data.nodes),
                 edges: new vis.DataSet(data.data.edges)
-            }
+            };
 
             // initialize your network!
             var network = new vis.Network(container, tree, options);
@@ -30,7 +39,7 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
 
                     appData.getById(node)
                         .then(function (nodeData) {
-                            console.log(nodeData);
+                            self.chosenNode = nodeData;
                         })
                         .catch();
                 }
