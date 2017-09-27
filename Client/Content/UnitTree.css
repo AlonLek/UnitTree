@@ -51,3 +51,12 @@
     direction: rtl;
     height: 45%;
 }
+
+.send-btn{
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+}
