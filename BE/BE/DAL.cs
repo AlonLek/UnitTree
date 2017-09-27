@@ -72,16 +72,6 @@ namespace BE
             }
         }
 
-        public Person GetPersonById(string id)
-        {
-            return null;
-        }
-
-        public List<Person> GetChildren()
-        {
-            return null;
-        }
-
         public void insertPeople()
         {
             Person root = new Person()
