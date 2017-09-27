@@ -5,6 +5,10 @@ app.controller("AddNewPersonController", ["appData", function (appData) {
     var self = this;
     self.person = {};
 
+    self.addNewPerson = function () {
+
+    }
+
     self.substringMatcher = function(strs) {
         return function findMatches(q, cb) {
             var matches, substringRegex;
