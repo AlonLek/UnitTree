@@ -3,4 +3,11 @@
     <div id="personCard" ng-if="unitTreeCtrl.chosenNode" class="card">
         <person-card person="unitTreeCtrl.chosenNode"></person-card>
     </div>
+    <button class="btn btn-light add-new-btn" ng-click="unitTreeCtrl.toggleEditCard()" ng-disabled="unitTreeCtrl.editNewPerson" ng-class="{'show-pointer': !unitTreeCtrl.editNewPerson}">
+        <span>הוסף חייל חדש</span>
+        <i class="fa fa-plus fa-2"></i>
+    </button>
+    <div id="newPersonCard" ng-if="unitTreeCtrl.editNewPerson" class="card">
+        <add-new-person editNewPerson="unitTreeCtrl.editNewPerson"></add-new-person>
+    </div>
 </div>

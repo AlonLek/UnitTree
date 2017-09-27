@@ -6,3 +6,23 @@
 .unit-tree {
     flex: auto;
 }
+
+.close-btn {
+    margin-left: 5px;
+    margin-top: 6px;
+    height: 35px;
+    float: left;
+    cursor: pointer;
+}
+
+.add-new-btn{
+    margin-left: 5px;
+    margin-top: 6px;
+    height: 35px;
+    float: left;
+}
+
+.show-pointer{
+    cursor: pointer;
+}
+

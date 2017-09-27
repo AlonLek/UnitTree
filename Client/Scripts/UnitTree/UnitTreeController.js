@@ -5,7 +5,11 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
     var self = this;
 
     self.chosenNode = null;
+    self.editNewPerson = false;
 
+    self.toggleEditCard = function () {
+        self.editNewPerson = !self.editNewPerson;
+    }
     appData.getAllDAta()
         .then(function (data) {
             var options = {
