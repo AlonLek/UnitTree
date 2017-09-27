@@ -9,50 +9,29 @@ app.controller("AddNewPersonController", ["appData", function (appData) {
 
     }
 
-    self.substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-            var matches, substringRegex;
+    function querySearch (query) {
+        var results = query ? appData.data.nodes.filter( createFilterFor(query) ) : appData.data.nodes,
+            deferred;
+        if (self.simulateQuery) {
+            deferred = $q.defer();
+            $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+            return deferred.promise;
+        } else {
+            return results;
+        }
+    }
 
-            // an array that will be populated with substring matches
-            matches = [];
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterFor(query) {
+        var lowercaseQuery = angular.lowercase(query);
 
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
-                if (substrRegex.test(str.label)) {
-                    matches.push(str);
-                }
-            });
-
-            cb(matches);
+        return function filterFn(commander) {
+            return (commander.label.indexOf(lowercaseQuery) === 0);
         };
-    };
 
-    // self.commanderName = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-    //     'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-    //     'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-    //     'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-    //     'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-    //     'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-    //     'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-    //     'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-    //     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    // ];
-
-    self.commanderName = appData.data.nodes;
-
-    $('#the-basics .typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'commanderName',
-            source: self.substringMatcher(self.commanderName)
-        });
+    }
 
     self.closeCard = function () {
         self.editNewPerson.isEdited = false;
