@@ -13,13 +13,13 @@ namespace BE
         [Route("Data")]
         public Tree GetData()
         {
-            DAL dal = new DAL("10.10.247.133", "8080");
+            var dal = new DAL("10.10.247.133", "8080");
             var people = dal.GetAllPeople();
             var nodes = new List<Node>();
             var edges = new List<Edge>();
             foreach (var person in people )
             {
-                nodes.Add(new Node(person.Id));
+                nodes.Add(new Node(person.Id, person.Name));
                 if(person.ParentId != null)
                     edges.Add(new Edge(person.ParentId,person.Id));
             }
@@ -28,6 +28,19 @@ namespace BE
             {
                 Nodes = nodes,
                 Edges = edges
+            };
+        }
+
+        [Route("Data")]
+        public PersonStats GetById(string id)
+        {
+            var dal = new DAL("10.10.247.133", "8080");
+            var person = dal.GetPerson(id);
+
+            return new PersonStats
+            {
+                Id = person.Id,
+                Name = person.Name
             };
         }
     }

@@ -54,5 +54,22 @@ namespace BE
                 }
             }
         }
+
+        public Person GetPerson(string id)
+        {
+            using (IDocumentStore store = new DocumentStore
+            {
+                Url = $"http://{_ip}:{_port}/", // server URL
+                DefaultDatabase = "UnitTree"   // default database
+            })
+            {
+                store.Initialize(); // initializes document store, by connecting to server and downloading various configurations
+
+                using (IDocumentSession session = store.OpenSession()) // opens a session that will work in context of 'DefaultDatabase'
+                {
+                    return session.Load<Person>(id);
+                }
+            }
+        }
     }
 }
