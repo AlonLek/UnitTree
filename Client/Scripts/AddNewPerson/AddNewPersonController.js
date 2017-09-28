@@ -3,45 +3,44 @@
  */
 app.controller("AddNewPersonController", ["appData", function (appData) {
     var self = this;
-    self.person = {};
+    self.person = {commander: null};
+    self.searchText = "";
 
     self.addNewPerson = function () {
+        self.person.parent = self.person.commander.id;
         appData.addNewPerson(self.person)
             .then(function () {
-                self.person = null;
-
                 appData.getAllData()
-                    .then(function (data) {
+                    .then(function () {
                         appData.network.setData({
-                            nodes: new vis.DataSet(data.data.nodes),
-                            edges: new vis.DataSet(data.data.edges)
+                            nodes: new vis.DataSet(appData.data.nodes),
+                            edges: new vis.DataSet(appData.data.edges)
                         });
+                        self.closeCard();
                     })
             });
     }
 
-    function querySearch (query) {
-        var results = query ? appData.data.nodes.filter( createFilterFor(query) ) : appData.data.nodes,
-            deferred;
-        if (self.simulateQuery) {
-            deferred = $q.defer();
-            $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-            return deferred.promise;
-        } else {
-            return results;
-        }
+    self.querySearch = function (query) {
+        results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : appData.data.nodes;
+        return results;
     }
 
     /**
      * Create filter function for a query string
      */
-    function createFilterFor(query) {
+    self.createFilterFor = function(query) {
         var lowercaseQuery = angular.lowercase(query);
 
         return function filterFn(commander) {
             return (commander.label.indexOf(lowercaseQuery) === 0);
         };
+    }
 
+    self.selectedItemChange = function (item) {
+        if(item !== undefined){
+            self.person.parentName = item.label;
+        }
     }
 
     self.closeCard = function () {

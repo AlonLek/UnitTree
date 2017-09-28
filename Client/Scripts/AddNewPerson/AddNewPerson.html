@@ -6,12 +6,15 @@
         <h4 class="center-flexbox-items new-person-title"><b>הוספת חייל חדש</b></h4>
         <div class="row-flexbox property-bottom-margin">
             <span class="person-property">שם מלא:</span>
-            <input type="text" ng-bind="addNewPersonCtrl.person.name" class="ng-binding">
+            <input type="text" ng-model="addNewPersonCtrl.person.name" class="ng-binding">
         </div>
         <div class="row-flexbox">
             <span class="person-property">שם מפקד:</span>
-            <div id="the-basics">
-                <md-autocomplete md-selected-item="addNewPersonCtrl.person.commander" md-search-text="searchText" md-items="item in addNewPersonCtrl.querySearch(searchText)" md-item-text="item.label">
+            <div>
+                <md-autocomplete md-selected-item="addNewPersonCtrl.person.commander" md-search-text="searchText"
+                                 md-items="item in addNewPersonCtrl.querySearch(searchText)" md-item-text="item.label"
+                                 md-selected-item-change="addNewPersonCtrl.selectedItemChange(item)"
+                                 md-min-length="0">
                     <span md-highlight-text="searchText">{{item.label}}</span>
                 </md-autocomplete>
             </div>

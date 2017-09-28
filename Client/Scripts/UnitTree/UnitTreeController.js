@@ -40,17 +40,23 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
 
                     appData.getById(node)
                         .then(function (nodeData) {
-                            self.chosenNode = nodeData;
+                            var parentName = appData.getById(nodeData.parent).then(function (parent) {
+                                if(parent){
+                                    nodeData.parentName = parent.name;
+                                }
+                                self.chosenNode = nodeData;
+                            }).catch();
+
                         })
                         .catch();
                 }
             });
 
-            var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, "4");
-            appData.network.setData({
-                nodes: new vis.DataSet(forrest.nodes),
-                edges: new vis.DataSet(forrest.edges)
-            });
+            // var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, "4");
+            // appData.network.setData({
+            //     nodes: new vis.DataSet(forrest.nodes),
+            //     edges: new vis.DataSet(forrest.edges)
+            // });
 
         })
         .catch();
