@@ -1,7 +1,7 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.controller("PersonCardController", ["appData", function (appData) {
+app.controller("PersonCardController", ["appData","$timeout", function (appData,$timeout) {
     var self = this;
     self.isEdited = false;
     self.commander = {};
@@ -35,22 +35,33 @@ app.controller("PersonCardController", ["appData", function (appData) {
         appData.updateData(self.person)
             .then(function () {
                 self.closeCard();
-
-                appData.getAllData()
-                    .then(function () {
-                        appData.network.setData({
-                            nodes: new vis.DataSet(appData.data.nodes),
-                            edges: new vis.DataSet(appData.data.edges)
-                        });
-                    })
-            });
+                $timeout(function () {
+                    appData.getAllData()
+                        .then(function () {
+                            appData.network.setData({
+                                nodes: new vis.DataSet(appData.data.nodes),
+                                edges: new vis.DataSet(appData.data.edges)
+                            });
+                        })
+                },1000) });
     }
 
     self.querySearch = function(query) {
-        var results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : appData.data.nodes;
+        var results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : self.removeSelfFromCommanders(appData.data.nodes);
         return results;
     }
 
+    self.removeSelfFromCommanders = function(nodes)
+    {
+        var pos;
+        for(var elm in nodes){
+            if(nodes[elm].id == self.person.id){
+                pos = elm;
+            }
+        }
+        nodes.splice(pos, 1);
+        return nodes;
+    }
     /**
      * Create filter function for a query string
      */
@@ -58,7 +69,7 @@ app.controller("PersonCardController", ["appData", function (appData) {
         var lowercaseQuery = angular.lowercase(query);
 
         return function filterFn(commander) {
-            return (commander.label.indexOf(lowercaseQuery) === 0);
+            return (commander.label.indexOf(lowercaseQuery) === 0 && commander.id != self.person.id);
         };
     }
     

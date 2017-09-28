@@ -9,7 +9,7 @@
         <!--placeholder="{{personCardCtrl.person.name}}" ng-model="personCardCtrl.person.name">-->
         <div class="row-flexbox">
             <span class="person-property">שם מפקד:</span>
-            <span ng-show="!personCardCtrl.isEdited">{{personCardCtrl.person.parentName}}</span>
+            <span ng-show="!personCardCtrl.isEdited">{{personCardCtrl.person.parentName || "אין מפקד"}}</span>
             <div ng-show="personCardCtrl.isEdited">
                 <div row-flexbox property-bottom-margin>
                     <md-autocomplete md-selected-item="personCardCtrl.person.selectedParent"
