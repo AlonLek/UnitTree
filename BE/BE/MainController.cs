@@ -57,6 +57,15 @@ namespace BE
         [Route("DeleteData")]
         public void GetDeleteById(string id)
         {
+            Person person = _dal.GetPerson(id);
+
+            List<Person> children = _dal.GetAllPeople().Where(x => x.ParentId == id).ToList();
+
+            foreach (var child in children)
+            {
+                _dal.ChangeParent(child.Id,person.ParentId);
+            }
+
             _dal.DeletePerson(id);
         }
 
@@ -76,5 +85,6 @@ namespace BE
         {
             _dal.ChangeParent(id, newPerentId);
         }
+
     }
 }
