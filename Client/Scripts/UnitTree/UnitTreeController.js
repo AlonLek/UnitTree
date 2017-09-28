@@ -1,11 +1,11 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.controller("UnitTreeController", ["$http", "appData", function ($http, appData) {
+app.controller("UnitTreeController", ["$http", "appData","$scope",function ($http, appData, $scope) {
     var self = this;
-
     self.chosenNode = null;
     self.editNewPerson = {isEdited : false};
+    self.query ="";
 
     self.toggleEditCard = function () {
         self.editNewPerson.isEdited = !self.editNewPerson.isEdited;
@@ -19,7 +19,8 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
                         sortMethod: 'directed'   // hubsize, directed
                     }
                 },
-                physics: false
+                physics: false,
+                nodes:{color:'#ff9900'}
             };
 
             // create a network
@@ -51,16 +52,22 @@ app.controller("UnitTreeController", ["$http", "appData", function ($http, appDa
                         .catch();
                 }
             });
-
-            // var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, "4");
-            // appData.network.setData({
-            //     nodes: new vis.DataSet(forrest.nodes),
-            //     edges: new vis.DataSet(forrest.edges)
-            // });
-
         })
         .catch();
+
+    $scope.$watch(function(){return (self.query)},function(newValue, oldValue) {
+        if(appData.data.nodes != null) {
+            var forrest = getRelevantNodesForest({nodes: appData.data.nodes, edges: appData.data.edges}, newValue);
+            if (appData.network != null) {
+                appData.network.setData({
+                    nodes: new vis.DataSet(forrest.nodes),
+                    edges: new vis.DataSet(forrest.edges)
+                });
+            }
+        }
+        },true);
 }]);
+
 
 /***
  *
@@ -160,9 +167,10 @@ var getRelevantNodes = function(tree, query) {
 }
 
 var getRelevantNodesForest = function(tree, query) {
+    colorNodes(tree.nodes,"#ff9900");
     var relevantNodes = getRelevantNodes(tree, query);
-
-    //colorNodes(relevantNodes, "purple")
+    if(relevantNodes.length != tree.nodes.length && relevantNodes.length>0)
+        colorNodes(relevantNodes, "#ff6699")
 
     if(relevantNodes.length === 0)
         return {
@@ -172,8 +180,8 @@ var getRelevantNodesForest = function(tree, query) {
 
     var currTree = getBloodLine(tree, relevantNodes[0]);
 
-    for (index in relevantNodes) {
-        var node = relevantNodes[index];
+    for (item in relevantNodes) {
+        var node = relevantNodes[item];
         currTree = unifyTrees(currTree, getBloodLine(tree, node));
     }
 

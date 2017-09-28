@@ -132,6 +132,11 @@ namespace BE
                 {
                     session.Store(person);
                     session.SaveChanges();
+                    if (person.ParentId != person.Id)
+                    {
+                        session.Store(person);
+                        session.SaveChanges();
+                    }
                 }
             }
         }
