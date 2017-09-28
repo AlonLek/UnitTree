@@ -47,7 +47,7 @@ app.controller("PersonCardController", ["appData","$timeout", function (appData,
     }
 
     self.querySearch = function(query) {
-        var results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : self.removeSelfFromCommanders(appData.data.nodes);
+        var results = query ? appData.data.nodes.filter( self.createFilterFor(query) ).sort(compare) : self.removeSelfFromCommanders(appData.data.nodes).sort(compare);
         return results;
     }
 
@@ -62,6 +62,15 @@ app.controller("PersonCardController", ["appData","$timeout", function (appData,
         nodes.splice(pos, 1);
         return nodes;
     }
+
+    function compare(a,b) {
+        if (a.label.toUpperCase() < b.label.toUpperCase())
+            return -1;
+        if (a.label.toUpperCase() > b.label.toUpperCase())
+            return 1;
+        return 0;
+    }
+
     /**
      * Create filter function for a query string
      */

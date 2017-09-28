@@ -25,8 +25,16 @@ app.controller("AddNewPersonController", ["appData", "$timeout", function (appDa
     }
 
     self.querySearch = function (query) {
-        results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : appData.data.nodes;
+        results = query ? appData.data.nodes.filter( self.createFilterFor(query)).sort(compare) : appData.data.nodes.sort(compare);
         return results;
+    }
+
+    function compare(a,b) {
+        if (a.label.toUpperCase() < b.label.toUpperCase())
+            return -1;
+        if (a.label.toUpperCase() > b.label.toUpperCase())
+            return 1;
+        return 0;
     }
 
     /**
