@@ -65,3 +65,10 @@
     text-align: center;
     margin-top: 100px;
 }
+
+.search-box{
+    direction: rtl;
+    margin-left: 5px;
+    margin-top: 5px;
+    direction: rtl;
+}
