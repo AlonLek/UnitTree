@@ -34,13 +34,14 @@ app.controller("PersonCardController", ["appData", function (appData) {
         self.person.parent = self.person.selectedParent.id;
         appData.updateData(self.person)
             .then(function () {
+                self.closeCard();
+
                 appData.getAllData()
                     .then(function () {
                         appData.network.setData({
                             nodes: new vis.DataSet(appData.data.nodes),
                             edges: new vis.DataSet(appData.data.edges)
                         });
-                        self.closeCard();
                     })
             });
     }

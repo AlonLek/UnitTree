@@ -1,7 +1,7 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.controller("AddNewPersonController", ["appData", function (appData) {
+app.controller("AddNewPersonController", ["appData", "$timeout", function (appData, $timeout) {
     var self = this;
     self.person = {commander: null};
     self.searchText = "";
@@ -10,14 +10,16 @@ app.controller("AddNewPersonController", ["appData", function (appData) {
         self.person.parent = self.person.commander.id;
         appData.addNewPerson(self.person)
             .then(function () {
-                appData.getAllData()
-                    .then(function () {
-                        appData.network.setData({
-                            nodes: new vis.DataSet(appData.data.nodes),
-                            edges: new vis.DataSet(appData.data.edges)
-                        });
-                        self.closeCard();
-                    })
+                $timeout(function () {
+                    appData.getAllData()
+                        .then(function () {
+                            appData.network.setData({
+                                nodes: new vis.DataSet(appData.data.nodes),
+                                edges: new vis.DataSet(appData.data.edges)
+                            });
+                            self.closeCard();
+                        })
+                }, 1000);
             });
     }
 
