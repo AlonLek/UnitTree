@@ -1,13 +1,18 @@
 <div class="row-flexbox">
-    <div><input style="direction:rtl" placeholder="חפש אדם..." type="text" ng-model="unitTreeCtrl.query"></div>
-    <div style="width: 100%;" class="row-flexbox">
-
-        <div id="unitTree" class="unit-tree"></div>
-        <button class="btn btn-light add-new-btn" ng-click="unitTreeCtrl.toggleEditCard()"
-                ng-disabled="unitTreeCtrl.editNewPerson.isEdited" ng-class="{'show-pointer': !unitTreeCtrl.editNewPerson}">
-            <span>הוסף חייל חדש</span>
-            <i class="fa fa-plus fa-2"></i>
-        </button>
+    <div style="width: 100%;" class="col-flexbox">
+        <div style="flex: auto;">
+            <div style="margin-top: 10px;" class="form-group center-flexbox-items">
+                <input class="form-control" style="direction:rtl; width: 15%;" placeholder="חפש חייל קיים..." type="text" ng-model="unitTreeCtrl.query">
+            </div>
+            <div id="unitTree" class="unit-tree"></div>
+        </div>
+        <div>
+            <button class="btn btn-light add-new-btn" ng-click="unitTreeCtrl.toggleEditCard()"
+                    ng-disabled="unitTreeCtrl.editNewPerson.isEdited" ng-class="{'show-pointer': !unitTreeCtrl.editNewPerson}">
+                <span>הוסף חייל חדש</span>
+                <i class="fa fa-plus fa-2"></i>
+            </button>
+        </div>
     </div>
     <div id="personCard" ng-if="unitTreeCtrl.chosenNode" class="card">
         <person-card person="unitTreeCtrl.chosenNode"></person-card>
