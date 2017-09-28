@@ -7,7 +7,8 @@ app.controller("AddNewPersonController", ["appData", "$timeout", function (appDa
     self.searchText = "";
 
     self.addNewPerson = function () {
-        self.person.parent = self.person.commander.id;
+        if(self.person.commander != null)
+            self.person.parent = self.person.commander.id;
         appData.addNewPerson(self.person)
             .then(function () {
                 $timeout(function () {
