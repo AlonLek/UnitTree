@@ -130,6 +130,8 @@ namespace BE
 
                 using (IDocumentSession session = store.OpenSession())
                 {
+                    session.Store(person);
+                    session.SaveChanges();
                     if (person.ParentId != person.Id)
                     {
                         session.Store(person);

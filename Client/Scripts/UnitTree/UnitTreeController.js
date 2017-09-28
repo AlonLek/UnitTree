@@ -41,7 +41,13 @@ app.controller("UnitTreeController", ["$http", "appData","$scope",function ($htt
 
                     appData.getById(node)
                         .then(function (nodeData) {
-                            self.chosenNode = nodeData;
+                            var parentName = appData.getById(nodeData.parent).then(function (parent) {
+                                if(parent){
+                                    nodeData.parentName = parent.name;
+                                }
+                                self.chosenNode = nodeData;
+                            }).catch();
+
                         })
                         .catch();
                 }

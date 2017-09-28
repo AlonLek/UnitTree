@@ -3,16 +3,39 @@
     </button>
     <!--<img src="img_avatar.png" alt="Avatar" style="width:100%">-->
     <div class="container">
-        <h4 class="center-flexbox-items" id="personName" ng-show="!personCardCtrl.isEdited"><b>{{personCardCtrl.person.name}}</b>
+        <h4 class="center-flexbox-items" id="personName"><b>{{personCardCtrl.person.name}}</b>
         </h4>
-        <input type="text" id="nameEdited" ng-show="personCardCtrl.isEdited" class="center-flexbox-items"
-               placeholder="{{personCardCtrl.person.name}}" ng-model="personCardCtrl.person.name">
+        <!--<input type="text" id="nameEdited" ng-show="personCardCtrl.isEdited" class="center-flexbox-items"-->
+        <!--placeholder="{{personCardCtrl.person.name}}" ng-model="personCardCtrl.person.name">-->
+        <div class="row-flexbox">
+            <span class="person-property">שם מפקד:</span>
+            <span ng-show="!personCardCtrl.isEdited">{{personCardCtrl.person.parentName}}</span>
+            <div ng-show="personCardCtrl.isEdited">
+                <div row-flexbox property-bottom-margin>
+                    <md-autocomplete md-selected-item="personCardCtrl.person.selectedParent"
+                                     md-selected-item-change="personCardCtrl.selectedItemChange(item)"
+                                     md-search-text="searchText"
+                                     md-items="item in personCardCtrl.querySearch(searchText)"
+                                     md-item-text="item.label"
+                                     md-min-length="0">
+                        <span md-highlight-text="searchText">{{item.label}}</span>
+                    </md-autocomplete>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="buttons">
         <button type="button" class="btn btn-danger" ng-click="personCardCtrl.deletePerson(personCardCtrl.person)">מחק
-אדם </button>
-        <button type="button" class="btn btn-primary" ng-click="personCardCtrl.editPerson()" ng-show="!personCardCtrl.isEdited">ערוך אדם</button>
-        <button type="button" class="btn btn-primary" ng-click="personCardCtrl.savePerson()" ng-show="personCardCtrl.isEdited">שמור פרטים</button>
-        <button type="button" class="btn btn-secondary" ng-click="personCardCtrl.cencelUpdate()" ng-show="personCardCtrl.isEdited">ביטול עריכה</button>
+            אדם
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="personCardCtrl.editPerson()"
+                ng-show="!personCardCtrl.isEdited">ערוך אדם
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="personCardCtrl.savePerson()"
+                ng-show="personCardCtrl.isEdited">שמור פרטים
+        </button>
+        <button type="button" class="btn btn-secondary" ng-click="personCardCtrl.cencelUpdate()"
+                ng-show="personCardCtrl.isEdited">ביטול עריכה
+        </button>
     </div>
 </div>

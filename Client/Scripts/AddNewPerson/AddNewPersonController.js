@@ -1,69 +1,49 @@
 /**
  * Created by hack on 27/09/2017.
  */
-app.controller("AddNewPersonController", ["appData", function (appData) {
+app.controller("AddNewPersonController", ["appData", "$timeout", function (appData, $timeout) {
     var self = this;
-    self.person = {};
+    self.person = {commander: null};
+    self.searchText = "";
 
     self.addNewPerson = function () {
+        self.person.parent = self.person.commander.id;
         appData.addNewPerson(self.person)
             .then(function () {
-                self.person = null;
-
-                appData.getAllData()
-                    .then(function (data) {
-                        appData.network.setData({
-                            nodes: new vis.DataSet(data.data.nodes),
-                            edges: new vis.DataSet(data.data.edges)
-                        });
-                    })
+                $timeout(function () {
+                    appData.getAllData()
+                        .then(function () {
+                            appData.network.setData({
+                                nodes: new vis.DataSet(appData.data.nodes),
+                                edges: new vis.DataSet(appData.data.edges)
+                            });
+                            self.closeCard();
+                        })
+                }, 1000);
             });
     }
 
-    self.substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-            var matches, substringRegex;
+    self.querySearch = function (query) {
+        results = query ? appData.data.nodes.filter( self.createFilterFor(query) ) : appData.data.nodes;
+        return results;
+    }
 
-            // an array that will be populated with substring matches
-            matches = [];
+    /**
+     * Create filter function for a query string
+     */
+    self.createFilterFor = function(query) {
+        var lowercaseQuery = angular.lowercase(query);
 
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
-                if (substrRegex.test(str.label)) {
-                    matches.push(str);
-                }
-            });
-
-            cb(matches);
+        return function filterFn(commander) {
+            return (commander.label.indexOf(lowercaseQuery) === 0);
         };
-    };
+    }
 
-    // self.commanderName = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-    //     'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-    //     'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-    //     'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-    //     'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-    //     'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-    //     'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-    //     'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-    //     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    // ];
-
-    self.commanderName = appData.data.nodes;
-
-    $('#the-basics .typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'commanderName',
-            source: self.substringMatcher(self.commanderName)
-        });
+    self.selectedItemChange = function (item) {
+        if(item !== undefined){
+            self.person.parentName = item.label;
+        }
+    }
 
     self.closeCard = function () {
         self.editNewPerson.isEdited = false;
